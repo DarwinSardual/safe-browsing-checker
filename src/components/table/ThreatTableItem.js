@@ -4,10 +4,9 @@ class ThreatTableItem extends Component{
 
   render(){
     return(
-      <tbody>
         <tr>
           <td>
-            1
+            {this.props.index}
           </td>
           <td>
             {this.props.item.link}
@@ -22,7 +21,6 @@ class ThreatTableItem extends Component{
             {this.props.item.threatEntryType}
           </td>
         </tr>
-      </tbody>
     )
   }
 }

@@ -8,6 +8,10 @@ class ThreatItem{
     this.__threatEntryType = threatEntryType;
   }
 
+  toArray(){
+    return [this.__link, this.__status, this.threatType, this.__threatEntryType];
+  }
+
   set link(link){
     this.__link = link;
   }
@@ -37,7 +41,7 @@ class ThreatItem{
   }
 
   get threatEntryType(){
-    return this.__threatType;
+    return this.__threatEntryType;
   }
 }
 
