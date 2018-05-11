@@ -4,6 +4,11 @@ import ThreatTable from './table/ThreatTable'
 
 class Main extends Component{
 
+  constructor(){
+    super();
+
+  }
+
   render(){
     return(
       <ThreatTable />

@@ -10,16 +10,16 @@ class ThreatTableItem extends Component{
             1
           </td>
           <td>
-            First item
+            {this.props.item.link}
           </td>
           <td>
-            Second item
+            {this.props.item.status}
           </td>
           <td>
-            Third item
+            {this.props.item.threatType}
           </td>
           <td>
-            Fourth item
+            {this.props.item.threatEntryType}
           </td>
         </tr>
       </tbody>
