@@ -1,17 +1,23 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import Papa from 'papaparse';
 
-import ThreatTable from './table/ThreatTable'
-import ThreatItem from './table/ThreatItem'
-import Input from './io/Input'
-import Papa from 'papaparse'
+import ThreatTable from './table/ThreatTable';
+import ThreatItem from './table/ThreatItem';
+import Input from './util/Input';
+import Header from './util/Header';
+import Status from './util/Status';
+import './Main.css';
 
 class Main extends Component{
 
   constructor(){
     super();
     this.state ={
-      links: {},
-      items: []
+      links: [],
+      items: [],
+      numScanned: 0,
+      numPassed: 0,
+      numFailed: 0
     }
 
     this.url = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyBY_Eq7FqIYf_JunNL5TpzoN32jQpN-TfM";
@@ -33,7 +39,7 @@ class Main extends Component{
       }
     };
   }
-  
+
   componentDidMount(){
     //let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
     //this.processData(promise);
@@ -47,9 +53,8 @@ class Main extends Component{
     for(let link of links){
       this.body.threatInfo.threatEntries.push({'url': link});
       l.push(links);
-      //let item = new ThreatItem(link, 'Passed', 'None', 'None');
-      //items.push(item);
     }
+
     this.setState({links: links}, ()=>{
       let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
       this.processData(promise);
@@ -61,24 +66,31 @@ class Main extends Component{
       response.json().then((data)=>{
         //process threat data's
         let threatItems = {};
-        for(let d of data.matches){
-          let item = new ThreatItem(d.threat.url, "Failed", d.threatType, d.threatEntryType);
-          threatItems[d.threat.url] = item;
-        }
+        if(data.matches)
+          for(let d of data.matches){
+            let item = new ThreatItem(d.threat.url, "Failed", d.threatType, d.threatEntryType);
+            threatItems[d.threat.url] = item;
+          }
 
         let items = [];
+        let scanned = 0;
+        let passed = 0;
+        let failed = 0;
         for(let link of this.state.links){
+
           if(!threatItems[link]){
             let item = new ThreatItem(link, "Passed", "None", "None");
             items.push(item)
-          }
-          else
+            scanned++;
+            passed++;
+          }else{
             items.push(threatItems[link]);
+            scanned++;
+            failed++;
+          }
         }
 
-        this.setState({items: items}, ()=>{
-          console.log(this.state.items);
-        });
+        this.setState({items: items, numScanned: scanned, numPassed: passed, numFailed: failed});
       })
     });
   }
@@ -100,8 +112,12 @@ class Main extends Component{
 
     return(
       <div>
-        <Input handleProcess={this.handleProcess.bind(this)} />
-        <ThreatTable items={this.state.items}/>
+        <Header id="headerClass" />
+        <div id="body">
+          <Input id="inputComponent" handleProcess={this.handleProcess.bind(this)} />
+          <ThreatTable items={this.state.items}/>
+          <Status numScanned={this.state.numScanned} numPassed={this.state.numPassed} numFailed={this.state.numFailed} />
+        </div>
       </div>
     )
   }
