@@ -1,0 +1,11 @@
+#table{
+  text-align: center;
+}
+
+.Failed{
+  background-color: red;
+}
+
+.Passed{
+  background-color: green;
+}

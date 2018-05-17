@@ -1,0 +1,37 @@
+#header{
+  background-color: green;
+  text-align: center;
+}
+
+.headerLeft{
+  float: left;
+}
+
+.headerRight{
+  float: right;
+}
+
+.headerCenter{
+  text-align: left;
+  margin: 0 auto !important;
+  display: inline-block;
+
+}
+
+#headerTitle{
+  color: white;
+}
+
+.settingsButton{
+  background-image: url('../icons/menu.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  width: 25px;
+  background-color: Transparent;
+  overflow: hidden;
+  outline:none;
+  border: none;
+}

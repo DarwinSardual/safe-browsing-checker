@@ -1,0 +1,27 @@
+#settings > .title{
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+}
+
+
+#settings > .content > .details{
+  font-size: 10px;
+  font-style: italic;
+  color: gray;
+}
+
+#settings > .content{
+  padding: 5px 10px;
+}
+
+#settings > .content label{
+  font-size: 14px;
+}
+
+.popup-content{
+  max-width: 500px;
+}
