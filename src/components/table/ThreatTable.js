@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ThreatTableItem from './ThreatTableItem'
 import ThreatTableHeader from './ThreatTableHeader'
 import ThreatItem from './ThreatItem'
+import './ThreatTable.css'
 
 
 class ThreatTable extends Component{
@@ -15,12 +16,14 @@ class ThreatTable extends Component{
     }
 
     return(
-      <table>
-        <ThreatTableHeader />
-        <tbody>
-          {items}
-        </tbody>
-      </table>
+      <div id="table">
+        <table>
+          <ThreatTableHeader />
+          <tbody>
+            {items}
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
