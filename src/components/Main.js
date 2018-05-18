@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import Papa from 'papaparse';
 
 import ThreatTable from './table/ThreatTable';
 import ThreatItem from './table/ThreatItem';
+import ThreatHeader from './table/ThreatHeader';
 import Input from './util/Input';
 import Header from './util/Header';
 import Status from './util/Status';
+
 import './Main.css';
 
 class Main extends Component{
@@ -13,13 +14,13 @@ class Main extends Component{
   constructor(){
     super();
     this.state ={
-      links: [],
+      header: new ThreatHeader("#", "Link", "Status", "Threat Type", "Threat Entry Type"),
       items: [],
-      numScanned: 0,
-      numPassed: 0,
-      numFailed: 0
+      itemsPassed: [],
+      itemsFailed: []
     }
 
+    this.links = [];
     this.url = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyBY_Eq7FqIYf_JunNL5TpzoN32jQpN-TfM";
     this.contentType = 'application/json';
     this.method = 'POST';
@@ -48,17 +49,14 @@ class Main extends Component{
   handleProcess(links){
 
     this.body.threatInfo.threatEntries = [];
-    let l = [];
 
     for(let link of links){
       this.body.threatInfo.threatEntries.push({'url': link});
-      l.push(links);
+      this.links.push(link);
     }
 
-    this.setState({links: links}, ()=>{
-      let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
-      this.processData(promise);
-    });
+    let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
+    this.processData(promise);
   }
 
   processData(promise){
@@ -73,24 +71,21 @@ class Main extends Component{
           }
 
         let items = [];
-        let scanned = 0;
-        let passed = 0;
-        let failed = 0;
-        for(let link of this.state.links){
-
+        let itemsPassed = [];
+        let itemsFailed = [];
+        for(let link of this.links){
           if(!threatItems[link]){
             let item = new ThreatItem(link, "Passed", "None", "None");
             items.push(item)
-            scanned++;
-            passed++;
+            itemsPassed.push(item)
           }else{
             items.push(threatItems[link]);
-            scanned++;
-            failed++;
+            itemsFailed.push(threatItems[link]);
           }
         }
 
-        this.setState({items: items, numScanned: scanned, numPassed: passed, numFailed: failed});
+        this.setState({items: items, itemsPassed: itemsPassed, itemsFailed: itemsFailed});
+        this.links = []; // clear the links
       })
     });
   }
@@ -108,15 +103,36 @@ class Main extends Component{
     });
   }
 
+  getTableData(type){
+    let param = {
+      fields: this.state.header.toArray(),
+      data:[]
+    }
+    let items;
+
+    if(type == 'pass')
+      items = this.state.itemsPassed;
+    else if(type == 'fail')
+      items = this.state.itemsFailed;
+    else
+      items = this.state.items;
+
+    for(let item of items){
+      param.data.push(item.toArray());
+    }
+
+    return param;
+  }
+
   render(){
 
     return(
       <div>
-        <Header id="headerClass" />
+        <Header getTableData={this.getTableData.bind(this)} />
         <div id="body">
-          <Input id="inputComponent" handleProcess={this.handleProcess.bind(this)} />
-          <ThreatTable items={this.state.items}/>
-          <Status numScanned={this.state.numScanned} numPassed={this.state.numPassed} numFailed={this.state.numFailed} />
+          <Input handleProcess={this.handleProcess.bind(this)} />
+          <ThreatTable items={this.state.items} header={this.state.header}/>
+          <Status numScanned={this.state.items.length} numPassed={this.state.itemsPassed.length} numFailed={this.state.itemsFailed.length} />
         </div>
       </div>
     )

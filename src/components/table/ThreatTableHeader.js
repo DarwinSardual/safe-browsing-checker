@@ -4,25 +4,23 @@ class ThreatTableHeader extends Component{
 
   render(){
     return(
-      <thead>
         <tr>
           <th>
-            #
+            {this.props.header.col1}
           </th>
           <th>
-            Link
+            {this.props.header.col2}
           </th>
           <th>
-            Status
+            {this.props.header.col3}
           </th>
           <th>
-            Threat Type
+            {this.props.header.col4}
           </th>
           <th>
-            Threat Entry Type
+            {this.props.header.col5}
           </th>
         </tr>
-      </thead>
     )
   }
 }

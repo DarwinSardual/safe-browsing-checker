@@ -3,26 +3,26 @@
   text-align: center;
 }
 
-.headerLeft{
+.header-left{
   float: left;
 }
 
-.headerRight{
+.header-right{
   float: right;
 }
 
-.headerCenter{
+.header-center{
   text-align: left;
   margin: 0 auto !important;
   display: inline-block;
 
 }
 
-#headerTitle{
+#header-title{
   color: white;
 }
 
-.settingsButton{
+.menu-button{
   background-image: url('../icons/menu.svg');
   background-repeat: no-repeat;
   background-size: contain;

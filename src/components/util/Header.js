@@ -17,21 +17,21 @@ class Header extends Component{
   render(){
     return(
       <div id="header">
-        <div className="headerLeft">
-          <Popup trigger={<button className="settingsButton"></button>} position="bottom left"
-      on="click"
-      closeOnDocumentClick
-      mouseLeaveDelay={300}
-      mouseEnterDelay={0}
-      contentStyle={{ padding: "0px", border: "none" }}
-      arrow={false}>
-            <Menu />
+        <div className="header-left">
+          <Popup trigger={<button className="menu-button"></button>} position="bottom left"
+            on="click"
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            contentStyle={{ padding: "0px", border: "none" }}
+            arrow={false}>
+            <Menu getTableData={this.props.getTableData} />
           </Popup>
         </div>
-        <div className="headerCenter">
-          <h1 id="headerTitle">Safe Browsing Checker</h1>
+        <div className="header-center">
+          <h1 id="header-title">Safe Browsing Checker</h1>
         </div>
-        <div className="headerRight">
+        <div className="header-right">
 
         </div>
       </div>

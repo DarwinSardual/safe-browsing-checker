@@ -18,7 +18,9 @@ class ThreatTable extends Component{
     return(
       <div id="table">
         <table>
-          <ThreatTableHeader />
+          <thead>
+            <ThreatTableHeader header={this.props.header} />
+          </thead>
           <tbody>
             {items}
           </tbody>
