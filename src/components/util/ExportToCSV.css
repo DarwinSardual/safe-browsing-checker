@@ -1,0 +1,12 @@
+#export-to-csv > .title{
+  border-bottom: 1px solid gray;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+}
+
+#export-to-csv > .content{
+  padding: 5px 10px;
+  font-size: 14px;
+}
