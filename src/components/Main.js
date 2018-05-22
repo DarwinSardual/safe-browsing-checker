@@ -17,15 +17,31 @@ class Main extends Component{
       header: new ThreatHeader("#", "Link", "Status", "Threat Type", "Threat Entry Type"),
       items: [],
       itemsPassed: [],
-      itemsFailed: []
+      itemsFailed: [],
+      settings: {apiKey: null}
     }
 
-    this.links = [];
-    this.url = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyBY_Eq7FqIYf_JunNL5TpzoN32jQpN-TfM";
-    this.contentType = 'application/json';
-    this.method = 'POST';
+    this.links = []
 
-    this.body = {
+    this.processLinksClicked = this.processLinksClicked.bind(this);
+    this.exportDataClicked = this.exportDataClicked.bind(this);
+    this.saveSettingsClicked = this.saveSettingsClicked.bind(this);
+    this.getSettingsFromTheServer(); // get the api key from the server, if none is found then try to access the fallback key
+  }
+
+  componentDidMount(){
+    //let promise = this.getDataFromTheServer(this.url, this.body, this.contentType, this.method);
+    //this.processData(promise);
+  }
+
+  handleProcess(links){
+
+    this.links = []; // clear the links
+    let url = "https://safebrowsing.googleapis.com/v4/threatMatches:find";
+    let contentType = 'application/json';
+    let method = 'POST';
+
+    let body = {
       client: {
         clientId: 'Eversun',
         clientVersion: '1'
@@ -39,25 +55,59 @@ class Main extends Component{
         ]
       }
     };
-  }
-
-  componentDidMount(){
-    //let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
-    //this.processData(promise);
-  }
-
-  handleProcess(links){
-
-    this.body.threatInfo.threatEntries = [];
 
     for(let link of links){
-      this.body.threatInfo.threatEntries.push({'url': link});
+      body.threatInfo.threatEntries.push({'url': link});
       this.links.push(link);
     }
+    // append the api key before making a request to the server
+    url += '?key=' + this.state.settings.apiKey;
 
-    let promise = this.fetchDataFromServer(this.url, this.body, this.contentType, this.method);
+    let promise = this.getDataFromTheServer(url, body, contentType, method);
     this.processData(promise);
   }
+
+  handleExport(filter){
+    const url = 'http://127.0.0.1:3010/export';
+    let data = this.getTableData(filter);
+
+    let promise = fetch(url,{
+      body: JSON.stringify(data),
+      cache: 'no-cache',
+      headers:{
+        'Content-type': 'application/json'
+      },
+      method: 'POST'
+    });
+
+    promise.then(function(response){
+      response.json().then(function(data){
+        console.log(data);
+        if(data)
+          if(data.statusCode == 200){
+            let url = 'http://' + data.url + ':' +data.port + '/' + data.filename;
+            window.open(url);
+          }
+      })
+    });
+  }
+
+  handleSettings(params){
+    let url = "http://127.0.0.1:3010/settings";
+    let contentType = 'application/json';
+    let method = 'POST';
+    let body = params;
+    console.log("darwin");
+    let promise = this.getDataFromTheServer(url, body, contentType, method);
+    const tempThis = this;
+
+    promise.then(function(response){
+      if(response.status == 200){
+        console.log(response);
+      }
+    });
+  }
+
 
   processData(promise){
     promise.then((response)=>{
@@ -90,16 +140,37 @@ class Main extends Component{
     });
   }
   /* this method returns a promise */
-  fetchDataFromServer(url, data, contentType, method){
+  getDataFromTheServer(url, data, contentType, method){
 
-    return fetch(url,{
-      body: JSON.stringify(data),
+    let params = {
       cache: 'no-cache',
       credentials: 'same-origin',
       headers:{
         'Content-type': contentType
       },
       method: method
+    }
+
+    if(data){
+      params.body = JSON.stringify(data);
+    }
+
+    return fetch(url, params);
+  }
+
+  getSettingsFromTheServer(){
+    let url = "http://127.0.0.1:3010/settings";
+    let contentType = 'application/json';
+    let method = 'GET';
+    let promise = this.getDataFromTheServer(url, null, contentType, method);
+    const tempThis = this; // have a reference to this
+
+    promise.then(function(response){
+      response.json().then(function(data){
+        // we expect a json object
+        console.log(data);
+        tempThis.setState({settings: {apiKey: data.apiKey}});
+      })
     });
   }
 
@@ -124,13 +195,28 @@ class Main extends Component{
     return param;
   }
 
+  /* CALLBACKS */
+
+  processLinksClicked(links){
+    this.handleProcess(links)
+  }
+
+  saveSettingsClicked(params){
+    this.handleSettings(params);
+  }
+
+  exportDataClicked(filter){
+    this.handleExport(filter)
+  }
+
   render(){
 
     return(
       <div>
-        <Header getTableData={this.getTableData.bind(this)} />
+        <Header settings={this.state.settings} exportDataClicked={this.exportDataClicked} saveSettingsClicked={this.saveSettingsClicked}
+         />
         <div id="body">
-          <Input handleProcess={this.handleProcess.bind(this)} />
+          <Input processLinksClicked={this.processLinksClicked} />
           <ThreatTable items={this.state.items} header={this.state.header}/>
           <Status numScanned={this.state.items.length} numPassed={this.state.itemsPassed.length} numFailed={this.state.itemsFailed.length} />
         </div>

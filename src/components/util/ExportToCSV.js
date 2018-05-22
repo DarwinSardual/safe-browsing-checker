@@ -9,23 +9,7 @@ class ExportToCSV extends Component{
 
   handleClick(str){
     let s = str.toLowerCase();
-    let data = this.props.getTableData(s);
-    const url = 'http://127.0.0.1:3010';
-
-    let promise = fetch(url,{
-      body: JSON.stringify(data),
-      cache: 'no-cache',
-      headers:{
-        'Content-type': 'application/json'
-      },
-      method: 'POST'
-    });
-
-    promise.then(function(response){
-      response.json().then(function(data){
-        console.log(data);
-      })
-    });
+    this.props.exportDataClicked(s);
   }
 
   render(){

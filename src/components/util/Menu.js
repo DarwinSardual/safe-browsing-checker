@@ -18,7 +18,7 @@ class Menu extends Component{
         <Popup trigger={<div className="menu-item">Settings</div>} modal closeOnDocumentClick>
           {close =>(
               <PopupWrapper close={close}>
-                <Settings />
+                <Settings settings={this.props.settings} saveSettingsClicked={this.props.saveSettingsClicked} />
               </PopupWrapper>
             )
           }
@@ -26,7 +26,7 @@ class Menu extends Component{
         <Popup trigger={<div className="menu-item">Export to CSV</div>} modal closeOnDocumentClick>
           {close =>(
               <PopupWrapper close={close}>
-                <ExportToCSV getTableData={this.props.getTableData} />
+                <ExportToCSV exportDataClicked={this.props.exportDataClicked}/>
               </PopupWrapper>
             )
           }

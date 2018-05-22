@@ -25,7 +25,7 @@ class Header extends Component{
             mouseEnterDelay={0}
             contentStyle={{ padding: "0px", border: "none" }}
             arrow={false}>
-            <Menu getTableData={this.props.getTableData} />
+            <Menu settings={this.props.settings} saveSettingsClicked={this.props.saveSettingsClicked} exportDataClicked={this.props.exportDataClicked} />
           </Popup>
         </div>
         <div className="header-center">

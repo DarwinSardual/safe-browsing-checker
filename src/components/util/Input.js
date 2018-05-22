@@ -7,12 +7,13 @@ class Input extends Component{
     super(props);
 
     this.textInput = React.createRef();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(event){
     let links;
     links = this.textInput.current.value.split(" ");
-    this.props.handleProcess(links);
+    this.props.processLinksClicked(links);
   }
 
   render(){
@@ -21,7 +22,7 @@ class Input extends Component{
         <textarea rows='5' columns='30' id='inputText' ref={this.textInput}>
         </textarea>
         <br />
-        <button id='submit' onClick={this.handleClick.bind(this)}>Submit</button>
+        <button id='submit' onClick={this.handleClick}>Submit</button>
       </div>
     );
   }
