@@ -82,9 +82,8 @@ class Main extends Component{
 
     promise.then(function(response){
       response.json().then(function(data){
-        console.log(data);
         if(data)
-          if(data.statusCode == 200){
+          if(data.statusCode === 200){
             let url = 'http://' + data.url + ':' +data.port + '/' + data.filename;
             window.open(url);
           }
@@ -97,13 +96,14 @@ class Main extends Component{
     let contentType = 'application/json';
     let method = 'POST';
     let body = params;
-    console.log("darwin");
     let promise = this.getDataFromTheServer(url, body, contentType, method);
     const tempThis = this;
 
     promise.then(function(response){
       if(response.status == 200){
-        console.log(response);
+        response.json().then(function(data){
+          tempThis.setState({settings: data});
+        });
       }
     });
   }
@@ -111,32 +111,37 @@ class Main extends Component{
 
   processData(promise){
     promise.then((response)=>{
-      response.json().then((data)=>{
-        //process threat data's
-        let threatItems = {};
-        if(data.matches)
-          for(let d of data.matches){
-            let item = new ThreatItem(d.threat.url, "Failed", d.threatType, d.threatEntryType);
-            threatItems[d.threat.url] = item;
-          }
 
-        let items = [];
-        let itemsPassed = [];
-        let itemsFailed = [];
-        for(let link of this.links){
-          if(!threatItems[link]){
-            let item = new ThreatItem(link, "Passed", "None", "None");
-            items.push(item)
-            itemsPassed.push(item)
-          }else{
-            items.push(threatItems[link]);
-            itemsFailed.push(threatItems[link]);
-          }
-        }
+      if(response.status === 200){
+        response.json().then((data)=>{
+          //process threat data's
+          let threatItems = {};
+          if(data.matches)
+            for(let d of data.matches){
+              let item = new ThreatItem(d.threat.url, "Failed", d.threatType, d.threatEntryType);
+              threatItems[d.threat.url] = item;
+            }
 
-        this.setState({items: items, itemsPassed: itemsPassed, itemsFailed: itemsFailed});
-        this.links = []; // clear the links
-      })
+            let items = [];
+            let itemsPassed = [];
+            let itemsFailed = [];
+            for(let link of this.links){
+              if(!threatItems[link]){
+                let item = new ThreatItem(link, "Passed", "None", "None");
+                items.push(item)
+                itemsPassed.push(item)
+              }else{
+                items.push(threatItems[link]);
+                itemsFailed.push(threatItems[link]);
+              }
+            }
+            this.setState({items: items, itemsPassed: itemsPassed, itemsFailed: itemsFailed});
+            this.links = []; // clear the links
+
+        });
+      }else{
+        console.log('An error has occured on your request');
+      }
     });
   }
   /* this method returns a promise */
@@ -168,7 +173,6 @@ class Main extends Component{
     promise.then(function(response){
       response.json().then(function(data){
         // we expect a json object
-        console.log(data);
         tempThis.setState({settings: {apiKey: data.apiKey}});
       })
     });

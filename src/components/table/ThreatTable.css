@@ -1,5 +1,39 @@
 #table{
+
   text-align: center;
+  /*border: 1px solid black;
+
+  display: block;
+  height: 400px;
+  overflow-y: scroll;*/
+
+}
+
+#table-container{
+  display: inline-block;
+
+  height: 400px;
+  padding-right: 10px;
+  overflow-y: auto;
+}
+
+#table table{
+
+  width: 700px;
+
+}
+
+#table table th{
+    /*border-width: 1px;
+    border-bottom: solid;
+    border-color: black;
+    height: 40px;*/
+}
+
+#table table td{
+    /*text-align: left;
+    border: 1px solid black;
+    padding: 5px;*/
 }
 
 .Failed{

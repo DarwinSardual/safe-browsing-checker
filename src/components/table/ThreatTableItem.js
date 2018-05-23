@@ -5,9 +5,9 @@ class ThreatTableItem extends Component{
   render(){
     return(
         <tr className={`${this.props.item.status}`} >
-          <td>
+          <th>
             {this.props.index}
-          </td>
+          </th>
           <td>
             {this.props.item.link}
           </td>

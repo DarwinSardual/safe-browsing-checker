@@ -1,5 +1,5 @@
 #header{
-  background-color: green;
+  background-color: #343a40;
   text-align: center;
 }
 
@@ -19,7 +19,7 @@
 }
 
 #header-title{
-  color: white;
+  color: green;
 }
 
 .menu-button{

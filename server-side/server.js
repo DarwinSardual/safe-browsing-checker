@@ -53,6 +53,7 @@ var serveSettings = function(response, headers){
   headers['Content-Type'] = "application/json";
   response.writeHead(200, headers);
   fs.createReadStream(__dirname + '/settings.json').pipe(response);
+
 }
 
 var saveSettings = function(params, callback = null){
@@ -83,9 +84,10 @@ var server = http.createServer(function(request, response){
       dataPromise = getDataFromRequest(request);
       dataPromise.then(function(data){
         // write the data to the buffer and send it back to the user
-        let exportResponse = serveExportResponse;
         try{
-          saveToCSV(data, exportResponse(response, headers, 200));
+          saveToCSV(data, ()=>{
+            serveExportResponse(response, headers, 200)
+          });
         }catch(error){
           console.log('export file was not successfully save');
           console.log(error.message);
@@ -95,7 +97,9 @@ var server = http.createServer(function(request, response){
     }else if(request.url === '/settings' || request.url === '/settings/'){
       dataPromise = getDataFromRequest(request);
       dataPromise.then(function(data){
-        saveSettings(data, serveSettings(response, headers));
+        saveSettings(data, ()=>{
+          serveSettings(response, headers)
+        });
       });
     }
   }else if(request.method === 'GET'){
