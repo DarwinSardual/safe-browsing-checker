@@ -111,7 +111,7 @@ class Main extends Component{
 
   processData(promise){
     promise.then((response)=>{
-
+      console.log(response);
       if(response.status === 200){
         response.json().then((data)=>{
           //process threat data's

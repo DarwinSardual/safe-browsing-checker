@@ -31,8 +31,8 @@ class Header extends Component{
   render(){
     return(
       <div id="header">
-      <Navbar color="black" light expand="md">
-        <NavbarBrand href="/">Safe Browsing Checker</NavbarBrand>
+      <Navbar color="dark" dark expand="md">
+        <NavbarBrand className="header-title" href="/">Safe Browsing Checker</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Nav className="ml-auto" navbar>
           <Menu settings={this.props.settings} saveSettingsClicked={this.props.saveSettingsClicked} exportDataClicked={this.props.exportDataClicked} />

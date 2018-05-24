@@ -18,8 +18,10 @@
 
 }
 
-#header-title{
-  color: green;
+.header-title{
+  color: white !important;
+  font-size: 25px !important;
+  font-weight: bold;
 }
 
 .menu-button{

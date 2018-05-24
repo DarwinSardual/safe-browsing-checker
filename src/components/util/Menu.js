@@ -50,7 +50,7 @@ class Menu extends Component{
       <div className="menu">
       <Nav className="ml-auto" navbar>
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret>
+          <DropdownToggle className="menu-toggle" nav caret>
                 Options
           </DropdownToggle>
           <DropdownMenu right>
