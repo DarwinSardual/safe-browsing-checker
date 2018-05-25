@@ -31,7 +31,7 @@ class SettingsModal extends Component{
               <input defaultValue={this.props.settings.apiKey} type="text" ref={this.apiInput} />
             </label>
             <div className="details">
-              If you dont have an API key yet, follow this <a href="http://youtube.com">guide</a> to get one.
+              If you dont have an API key yet, follow this <a href="http://developers.google.com/safe-browsing/v4/get-started">guide</a> to get one.
             </div>
           </div>
           </ModalBody>
