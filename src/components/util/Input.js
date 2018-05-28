@@ -15,7 +15,7 @@ class Input extends Component{
     let links;
     links = this.textInput.current.value.trim();
     if(links !== ''){
-      links = links.split(" ");
+      links = links.replace( /\n/g, " " ).split( " " );
       console.log(links);
       this.props.processLinksClicked(links);
     }else{
