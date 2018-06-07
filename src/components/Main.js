@@ -179,8 +179,9 @@ class Main extends Component{
     promise.then(function(response){
       response.json().then(function(data){
         // we expect a json object
+        console.log('darwin ' + data.apiKey);
         tempThis.setState({settings: {apiKey: data.apiKey}}, ()=>{
-          console.log(tempThis.state.settings.apiKey);
+
 
         });
       })
