@@ -74,6 +74,7 @@ class Main extends Component{
 
   handleExport(filter){
     const url = this.serverDetails.url + ':' + this.serverDetails.port +  '/export';
+    console.log(url);
     let data = this.getTableData(filter);
 
     let promise = fetch(url,{
@@ -98,6 +99,7 @@ class Main extends Component{
 
   handleSettings(params){
     const url = this.serverDetails.url + ':' + this.serverDetails.port + "/settings";
+    console.log(url);
     let contentType = 'application/json';
     let method = 'POST';
     let body = params;
