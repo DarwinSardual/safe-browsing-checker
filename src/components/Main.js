@@ -169,7 +169,8 @@ class Main extends Component{
   }
 
   getSettingsFromTheServer(){
-    let url = this.serverDetails.url + ':' + this.serverDetails.port + '/settings';
+    const url = this.serverDetails.url + ':' + this.serverDetails.port + '/settings';
+    console.log(url);
     let contentType = 'application/json';
     let method = 'GET';
     let promise = this.getDataFromTheServer(url, null, contentType, method);
