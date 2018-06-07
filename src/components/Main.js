@@ -180,8 +180,8 @@ class Main extends Component{
       response.json().then(function(data){
         // we expect a json object
         tempThis.setState({settings: {apiKey: data.apiKey}}, ()=>{
-          //console.log(this.state.settings.apiKey);
-          console.log('darwin');
+          console.log(this.state.settings.apiKey);
+          //console.log('darwin');
         });
       })
     });
