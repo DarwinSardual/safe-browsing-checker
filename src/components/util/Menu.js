@@ -33,8 +33,6 @@ class Menu extends Component{
 
   toggle(type){
 
-    console.log("Darwin");
-
     let params;
     if(type === 'settings'){
       params = {settingsModal: !this.state.settingsModal}

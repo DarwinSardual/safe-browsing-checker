@@ -99,7 +99,6 @@ class Main extends Component{
 
   handleSettings(params){
     const url = this.serverDetails.url + ':' + this.serverDetails.port + "/settings";
-    console.log(url);
     let contentType = 'application/json';
     let method = 'POST';
     let body = params;
@@ -118,7 +117,6 @@ class Main extends Component{
 
   processData(promise){
     promise.then((response)=>{
-      console.log(response);
       if(response.status === 200){
         response.json().then((data)=>{
           //process threat data's
@@ -171,7 +169,7 @@ class Main extends Component{
   }
 
   getSettingsFromTheServer(){
-    let url = "http://127.0.0.1:3010/settings";
+    let url = this.serverDetails.url + ':' + this.serverDetails.port + '/settings';
     let contentType = 'application/json';
     let method = 'GET';
     let promise = this.getDataFromTheServer(url, null, contentType, method);
