@@ -21,6 +21,11 @@ class Main extends Component{
       settings: {apiKey: null}
     }
 
+    this.serverDetails = {
+      url: 'http://34.224.67.238',
+      port: '8081'
+    }
+
     this.links = []
 
     this.processLinksClicked = this.processLinksClicked.bind(this);
@@ -68,7 +73,7 @@ class Main extends Component{
   }
 
   handleExport(filter){
-    const url = 'http://127.0.0.1:3010/export';
+    const url = this.serverDetails.url + ':' + this.serverDetails.port +  '/export';
     let data = this.getTableData(filter);
 
     let promise = fetch(url,{
@@ -92,7 +97,7 @@ class Main extends Component{
   }
 
   handleSettings(params){
-    let url = "http://127.0.0.1:3010/settings";
+    const url = this.serverDetails.url + ':' + this.serverDetails.port + "/settings";
     let contentType = 'application/json';
     let method = 'POST';
     let body = params;
