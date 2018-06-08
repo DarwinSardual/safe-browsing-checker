@@ -2,7 +2,7 @@ var http = require('http');
 var papa = require('papaparse');
 var fs = require('fs');
 
-const serverInfo = {url: '127.0.0.1', port: '3010'};
+const serverInfo = {url: '34.224.67.238', bind: '0.0.0.0', port: '8081'};
 
 var getDataFromRequest = function (request){
   return new Promise(function(fullfill, reject){
@@ -113,5 +113,5 @@ var server = http.createServer(function(request, response){
   }
 });
 
-server.listen(serverInfo.port, serverInfo.url);
-console.log("Server started at " + serverInfo.url + " port " + serverInfo.port);
+server.listen(serverInfo.port, serverInfo.bind);
+console.log("Server started at " + serverInfo.bind + " port " + serverInfo.port);
